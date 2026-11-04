@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthy Recipe Generator</title>
+<meta name="description" content="Turn the ingredients and utensils you have into healthy recipes, with allergen checks, calories and PDF downloads.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="layout">
+  <form id="kitchen" class="kitchen" novalidate>
+    <h1>What's in your kitchen?</h1>
+    <p class="lede">Add what you have. You'll get healthy recipes you can cook with it.</p>
+
+    <label for="ingredients">Ingredients you have</label>
+    <textarea id="ingredients" rows="3" placeholder="chicken, brown rice, broccoli, garlic"></textarea>
+    <div class="quick" id="quick-ingredients" aria-label="Quick add ingredients"></div>
+
+    <label for="utensils">Utensils you have</label>
+    <textarea id="utensils" rows="2" placeholder="wok, pot, oven"></textarea>
+    <div class="quick" id="quick-utensils" aria-label="Quick add utensils"></div>
+    <label class="check"><input type="checkbox" id="basics" checked> I also have a knife, chopping board, spoon and bowl</label>
+
+    <fieldset>
+      <legend>Allergens to avoid</legend>
+      <div class="allergens" id="allergens"></div>
+      <label for="other-allergens">Other allergens not listed</label>
+      <input id="other-allergens" type="text" placeholder="kiwi, strawberries">
+      <label class="check"><input type="checkbox" id="no-allergens"> I have no allergens to avoid</label>
+    </fieldset>
+
+    <details class="options">
+      <summary>Recipe options</summary>
+      <div class="option-grid">
+        <div><label for="servings">Servings</label><input id="servings" type="number" min="1" max="12" value="2"></div>
+        <div><label for="count">Number of recipes</label><input id="count" type="number" min="1" max="5" value="3"></div>
+        <div><label for="time">Maximum minutes</label><input id="time" type="number" min="5" max="180" step="5" value="60"></div>
+        <div><label for="missing">Main ingredients I can buy</label><input id="missing" type="number" min="0" max="5" value="2"></div>
+      </div>
+      <label for="meal">Meal</label>
+      <select id="meal"><option>Any</option><option>Breakfast</option><option>Lunch or dinner</option></select>
+      <fieldset class="plain"><legend>Dietary requirements</legend><div class="allergens" id="diets"></div></fieldset>
+      <p class="hint" id="halal-note" hidden>The built-in recipes use no pork or alcohol. Choose halal-certified meat and products.</p>
+      <label class="check"><input type="checkbox" id="other-utensils"> Also show recipes that need other utensils</label>
+    </details>
+
+    <details class="options" id="ai-panel">
+      <summary>Create new recipes with AI (optional)</summary>
+      <p class="hint">Without a key, you'll get matches from 52 built-in recipes. To create new recipes and search online for cookbook alternatives, add your own <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Gemini API key</a>.</p>
+      <label for="api-key">Your Gemini API key</label>
+      <input id="api-key" type="password" autocomplete="off" spellcheck="false">
+      <p class="hint">The key goes only from this browser to Google, and is cleared when you close or refresh this page. Your food details and allergens are also sent to Google, so don't enter personal details.</p>
+    </details>
+
+    <p class="hint" id="shared-ai-note" hidden>Recipes are created with AI. Your food details and allergens are sent to Google Gemini, so don't enter personal details. If AI is unavailable, you'll get built-in recipes.</p>
+    <p class="error" id="form-error" role="alert" hidden></p>
+    <button class="primary" type="submit" id="find">Find healthy recipes</button>
+  </form>
+
+  <section class="results" aria-live="polite">
+    <div id="results"><div class="empty"><h2>Your recipes will appear here</h2><p>Enter your ingredients and allergens, then select Find healthy recipes.</p></div></div>
+
+    <div class="alt">
+      <h2>Missing something?</h2>
+      <form id="alt-form" novalidate>
+        <div class="alt-row">
+          <div class="grow"><label for="alt-item">Ingredient or utensil to replace</label><input id="alt-item" type="text" placeholder="soy sauce, or rice cooker"></div>
+          <div><label for="alt-kind">Type</label><select id="alt-kind"><option value="ingredient">Ingredient</option><option value="utensil">Utensil</option></select></div>
+          <button type="submit" class="secondary" id="alt-find">Find alternatives</button>
+        </div>
+      </form>
+      <div id="alt-results"></div>
+    </div>
+  </section>
+</main>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="pdf-widths.js"></script>
+<script src="core.js"></script>
+<script src="pdf.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
